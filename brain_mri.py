@@ -8,6 +8,7 @@ import time
 # Getting the current working directory
 cwd = os.getcwd()
 
+st.write(cwd)
 # Creating title for the web app
 st.title("BRAIN TUMOR DETECTION")
 st.write("""
@@ -36,13 +37,10 @@ model = load_model()
 image_file = st.file_uploader("Upload Image below", type = ['jfif','jpg','png','jpeg'])
 if image_file is not None:
  # Preprocess the image
-    if not "image_file" in st.session_state:
-        st.session_state["image_file"] = image_file
-
-    def preprocess_image(file_path):
+    def preprocess_image():
         try:
-            img_dir = os.path.join(cwd,file_path)
-            img = cv2.imread(img_dir)
+            # img_dir = os.path.join(cwd, image_file.name)
+            img = cv2.imread(image_file)
             img_resize = cv2.resize(img, (224,224))
             return img_resize
         except:
@@ -63,7 +61,7 @@ if image_file is not None:
     # Validating whether an image has been uploaded and showing the PREDICT
     # button if value of image is True and not None     
     if image_file:
-        img_to_show = preprocess_image(st.session_state["image_file"].name)
+        img_to_show = preprocess_image()
         st.image(img_to_show)
         with st.spinner("Getting the model to work, just for you ..."):
             time.sleep(1)
