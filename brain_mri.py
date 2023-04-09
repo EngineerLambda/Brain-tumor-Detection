@@ -34,38 +34,40 @@ def load_model():
 model = load_model()
 
 image_file = st.file_uploader("Upload Image below", type = ['jfif','jpg','png','jpeg'])
-
+if image_file is not None:
  # Preprocess the image
-def preprocess_image(file_path):
-    try:
-        img_dir = os.path.join(cwd,file_path)
-        img = cv2.imread(img_dir)
-        img_resize = cv2.resize(img, (224,224))
-        return img_resize
-    except:
-        st.error("Image could not be read")
+    def preprocess_image(file_path):
+        try:
+            img_dir = os.path.join(cwd,file_path)
+            img = cv2.imread(img_dir)
+            img_resize = cv2.resize(img, (224,224))
+            return img_resize
+        except:
+            st.error("Image could not be read")
 
 
-# Creating function for the predict botton
-def predict():
-    image_predict = preprocess_image(image_file.name)
-    pred = model.predict(image_predict.reshape(-1,224,224,3))
-    class_idx = int(pred[0][0])
-    if class_idx == 0:
-        return st.success("This patient doesn\'t have brain tumor")
-    else:
-        return st.error("This patient has brain tumor")
+    # Creating function for the predict botton
+    def predict():
+        image_predict = preprocess_image(image_file.name)
+        pred = model.predict(image_predict.reshape(-1,224,224,3))
+        class_idx = int(pred[0][0])
+        if class_idx == 0:
+            return st.success("This patient doesn\'t have brain tumor")
+        else:
+            return st.error("This patient has brain tumor")
 
 
-# Validating whether an image has been uploaded and showing the PREDICT
-# button if value of image is True and not None     
-if image_file:
-    img_to_show = preprocess_image(image_file.name)
-    st.image(img_to_show)
-    with st.spinner("Getting the model to work, just for you ..."):
-        time.sleep(1)
-        if st.button('Detect'):
-            predict()
+    # Validating whether an image has been uploaded and showing the PREDICT
+    # button if value of image is True and not None     
+    if image_file:
+        img_to_show = preprocess_image(image_file.name)
+        st.image(img_to_show)
+        with st.spinner("Getting the model to work, just for you ..."):
+            time.sleep(1)
+            if st.button('Detect'):
+                predict()
+else:
+    st.error("Cannot read Image file")
 
 
 # Creating a custom footer using css\
