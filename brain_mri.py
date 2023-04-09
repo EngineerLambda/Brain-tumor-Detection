@@ -1,5 +1,6 @@
 import streamlit as st
 import tensorflow as tf
+import numpy as np
 import cv2
 import os
 from PIL import Image
@@ -8,7 +9,6 @@ import time
 # Getting the current working directory
 cwd = os.getcwd()
 
-st.write(cwd)
 # Creating title for the web app
 st.title("BRAIN TUMOR DETECTION")
 st.write("""
@@ -27,7 +27,7 @@ with st.sidebar:
             )
 
 
-# Loading the pre-saved model
+# Loading the pre-trained model
 @st.cache_resource
 def load_model():
     return tf.keras.models.load_model(os.path.join(cwd,"resources","brain_mri.h5"))
@@ -39,17 +39,22 @@ if image_file is not None:
  # Preprocess the image
     def preprocess_image():
         try:
-            # img_dir = os.path.join(cwd, image_file.name)
-            img = cv2.imread(image_file)
+        # img_dir = os.path.join(cwd, image_file.name)
+            # Read the uploaded file as an image
+            file_bytes = np.asarray(bytearray(image_file.read()), dtype=np.uint8)
+            img = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
+
             img_resize = cv2.resize(img, (224,224))
             return img_resize
         except:
             st.error("Image could not be read")
 
 
+    img_to_show = preprocess_image()
+    st.image(img_to_show)
     # Creating function for the predict botton
     def predict():
-        image_predict = preprocess_image(st.session_state["image_file"].name)
+        image_predict = img_to_show
         pred = model.predict(image_predict.reshape(-1,224,224,3))
         class_idx = int(pred[0][0])
         if class_idx == 0:
@@ -60,13 +65,11 @@ if image_file is not None:
 
     # Validating whether an image has been uploaded and showing the PREDICT
     # button if value of image is True and not None     
-    if image_file:
-        img_to_show = preprocess_image()
-        st.image(img_to_show)
-        with st.spinner("Getting the model to work, just for you ..."):
-            time.sleep(1)
-            if st.button('Detect'):
-                predict()
+    
+    with st.spinner("Getting the model to work, just for you ..."):
+        time.sleep(1)
+        if st.button('Detect'):
+            predict()
 else:
     st.error("Kindly upload a valid image")
 
