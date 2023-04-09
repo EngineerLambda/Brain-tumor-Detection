@@ -36,6 +36,9 @@ model = load_model()
 image_file = st.file_uploader("Upload Image below", type = ['jfif','jpg','png','jpeg'])
 if image_file is not None:
  # Preprocess the image
+    if not "image_file" in st.session_state:
+        st.session_state["image_file"] = image_file
+
     def preprocess_image(file_path):
         try:
             img_dir = os.path.join(cwd,file_path)
@@ -48,7 +51,7 @@ if image_file is not None:
 
     # Creating function for the predict botton
     def predict():
-        image_predict = preprocess_image(image_file.name)
+        image_predict = preprocess_image(st.session_state["image_file"].name)
         pred = model.predict(image_predict.reshape(-1,224,224,3))
         class_idx = int(pred[0][0])
         if class_idx == 0:
@@ -60,14 +63,14 @@ if image_file is not None:
     # Validating whether an image has been uploaded and showing the PREDICT
     # button if value of image is True and not None     
     if image_file:
-        img_to_show = preprocess_image(image_file.name)
+        img_to_show = preprocess_image(st.session_state["image_file"].name)
         st.image(img_to_show)
         with st.spinner("Getting the model to work, just for you ..."):
             time.sleep(1)
             if st.button('Detect'):
                 predict()
 else:
-    st.error("Cannot read Image file")
+    st.error("Kindly upload a valid image")
 
 
 # Creating a custom footer using css\
