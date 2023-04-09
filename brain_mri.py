@@ -17,8 +17,8 @@ st.write("""
 # Creating side bar
 with st.sidebar:
     st.title("Brain MRI status check")
-    pic = Image.open(os.path.join(cwd,"resources","brainimg.png"))
-    st.image(pic)
+    with Image.open(os.path.join(cwd,"resources","brainimg.png")) as pic:
+        st.image(pic)
     st.info(
         """This web app is using a pre-trained machine learning model
             to determine whether a patient has brain tumor or not
