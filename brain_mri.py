@@ -100,7 +100,7 @@ text-align: center;
 </style>
 <div class="footer">
 <p>Developed with streamlit by:<a style='display: block; text-align: center;' href="https://www.github.com/EngineerLambda" target="_blank">Jimoh Abdulsomad Abiola(EngineerLambda)</a></p>
-<p>Developed with streamlit by:<a style='display: block; text-align: center;' href="https://github.com/EngineerLambda/Brain-tumor-Detection" target="_blank">Source code on Github</a></p>
+<p>Reference Link:<a style='display: block; text-align: center;' href="https://github.com/EngineerLambda/Brain-tumor-Detection" target="_blank">Source code on Github</a></p>
 </div>
 """
 
