@@ -11,5 +11,5 @@ I believe this model is important in situations or areas where there are fewer d
 
 ## Author
 Jimoh Abdulsomad Abiola (engineerlambda)
-[Twitter](twitter.com/abdulsomad_me)
+[Twitter](https://twitter.com/abdulsomad_me)
 [Link to webapp](https://engineerlambda-brain-tumor-detection.streamlit.app/)
