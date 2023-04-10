@@ -6,6 +6,8 @@ import os
 from PIL import Image
 import time 
 
+st.set_page_config(page_title="Brain tumor detection", page_icon="🧠")
+
 # Getting the current working directory
 cwd = os.getcwd()
 
