@@ -47,6 +47,7 @@ if image_file is not None:
             img = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
 
             img_resize = cv2.resize(img, (224,224))
+            rescaled = img_resize * 1./225
             return img_resize
         except:
             st.error("Image could not be read")
@@ -58,6 +59,7 @@ if image_file is not None:
     def predict():
         image_predict = img_to_show
         pred = model.predict(image_predict.reshape(-1,224,224,3))
+        print(pred)
         class_idx = int(pred[0][0])
         if class_idx == 0:
             return st.success("This patient doesn\'t have brain tumor")
