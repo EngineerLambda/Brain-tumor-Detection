@@ -32,7 +32,7 @@ with st.sidebar:
 # Loading the pre-trained model
 @st.cache_resource
 def load_model():
-    return tf.keras.models.load_model(os.path.join(cwd,"resources","brain_mri.h5"))
+    return tf.keras.models.load_model(os.path.join(cwd,"resources","brain_mri.keras"))
 
 model = load_model()
 
