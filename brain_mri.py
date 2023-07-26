@@ -32,7 +32,7 @@ with st.sidebar:
 # Loading the pre-trained model
 @st.cache_resource
 def load_model():
-    return tf.keras.models.load_model(os.path.join(cwd,"resources","brain_mri.h5"))
+    return tf.keras.models.load_model(os.path.join(cwd,"resources","brain_mri.keras"))
 
 model = load_model()
 
@@ -59,11 +59,11 @@ if image_file is not None:
     def predict():
         image_predict = img_to_show
         pred = model.predict(image_predict.reshape(-1,224,224,3))
-        print(pred)
-        class_idx = int(pred[0][0])
-        if class_idx == 0:
+        
+        class_idx = pred[0][0]
+        if class_idx < 0.5:
             return st.success("This patient doesn\'t have brain tumor")
-        else:
+        elif class_idx > 0.5:
             return st.error("This patient has brain tumor")
 
 
