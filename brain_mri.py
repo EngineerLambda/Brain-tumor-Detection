@@ -37,6 +37,10 @@ def load_model():
 model = load_model()
 
 image_file = st.file_uploader("Upload Image below", type = ['jfif','jpg','png','jpeg'])
+
+ # Validating whether an image has been uploaded and showing the PREDICT
+ # button if value of image is True and not None 
+ 
 if image_file is not None:
  # Preprocess the image
     def preprocess_image():
@@ -59,16 +63,13 @@ if image_file is not None:
     def predict():
         image_predict = img_to_show
         pred = model.predict(image_predict.reshape(-1,224,224,3))
-        
+
         class_idx = pred[0][0]
         if class_idx < 0.5:
             return st.success("This patient doesn\'t have brain tumor")
         elif class_idx > 0.5:
             return st.error("This patient has brain tumor")
-
-
-    # Validating whether an image has been uploaded and showing the PREDICT
-    # button if value of image is True and not None     
+    
     
     with st.spinner("Getting the model to work, just for you ..."):
         time.sleep(1)
