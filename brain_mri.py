@@ -32,15 +32,15 @@ with st.sidebar:
 # Loading the pre-trained model
 @st.cache_resource
 def load_model():
-    return tf.keras.models.load_model(os.path.join(cwd,"resources","brain_mri.keras"))
+    return tf.keras.models.load_model(os.path.join(cwd,"resources","brain_mri.h5"))
 
 model = load_model()
 
 image_file = st.file_uploader("Upload Image below", type = ['jfif','jpg','png','jpeg'])
 
- # Validating whether an image has been uploaded and showing the PREDICT
+ # Validating whether an image has been uploaded and showing the
  # button if value of image is True and not None 
- 
+
 if image_file is not None:
  # Preprocess the image
     def preprocess_image():
