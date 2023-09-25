@@ -52,7 +52,7 @@ if image_file is not None:
 
             img_resize = cv2.resize(img, (224,224))
             rescaled = img_resize * 1./225
-            return rescaled
+            return img_resize
         except:
             st.error("Image could not be read")
 
